@@ -1,0 +1,57 @@
+﻿@model IEnumerable<FinalLaboIV.Models.Product>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="text-center">FAVORITOS</h1>
+
+
+<table class="table table-hover" enctype="multipart/form-data">
+    <thead class="text-uppercase table-secondary">
+        <tr>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th class="text-center">
+                @Html.DisplayNameFor(model => model.Photo)
+            </th>
+            <th class="text-center">
+                Acciones
+            </th>
+        </tr>
+    </thead>
+    <tbody class="table">
+        @foreach (var item in Model)
+        {
+            if (item.Favourite == true)
+            {
+                <tr>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td class="text-center">
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td class="text-center">
+                       @if (!string.IsNullOrEmpty(@item.Photo))
+                        {
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <img src="~/images/products/@item.Photo"
+                                 class="img-thumbnail"
+                                 style="max-height:150px; max-width:150px"
+                                 asp-append-version="true" />
+                        </a>
+                        }
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-outline-success">Información del producto</a>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>

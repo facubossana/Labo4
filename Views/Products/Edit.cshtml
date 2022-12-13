@@ -1,0 +1,96 @@
+﻿@model FinalLaboIV.Models.Product
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Editar</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Price" class="control-label"></label>
+                <input asp-is-invariant="true" asp-for="Price" class="form-control" />
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <input asp-for="Description" class="form-control" />
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="form-group form-check">
+                <label class="form-check-label">
+                    <input class="form-check-input" asp-for="Favourite" /> @Html.DisplayNameFor(model => model.Favourite)
+                </label>
+            </div>
+            <div class="form-group">
+                <label asp-for="Category" class="control-label"></label>
+                <select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
+                <span asp-validation-for="CategoryId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Brand" class="control-label"></label>
+                <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
+                <span asp-validation-for="BrandId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SupplierProduct" class="control-label"></label>
+                <select name="selectedSuppliers" asp-for="SupplierProduct" class="form-control">
+                    <option value="null">No seleccionar ningún elemento</option>
+                    @foreach (var item in @ViewBag.Suppliers)
+                    {
+                        if (item.Selected == true)
+                        {
+                            <option selected value="@item.Value">@item.Text</option>
+                        }
+                        else
+                        {
+                            <option value="@item.Value">@item.Text</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="SupplierProduct" class="text-danger" />
+            </div>
+
+            <br />
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                @if (!string.IsNullOrEmpty(@Model.Photo))
+                {
+                    <div class="form-group">
+                        <img src="/images/Products/@Model.Photo" id="image" class="img-thumbnail"
+                             style="max-height:200px" asp-append-version="true" />
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <img src="" id="image" class="img-thumbnail"
+                             style="max-height:200px ; display:none" asp-append-version="true" />
+                    </div>
+                }
+                <input asp-for="Photo" type="file" id="imageSelector" accept="image/jpeg" class="form-control-file" />
+                <input type="hidden" asp-for="Photo" />
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+                <a asp-action="Index" class="btn btn-dark">Volver</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+<script src="~/js//preview.js"></script>
